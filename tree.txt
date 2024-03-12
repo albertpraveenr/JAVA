@@ -1,0 +1,377 @@
+import java.util.*;
+public class Main{
+   
+   static class Node{
+       int val;
+       Node left;
+       Node right;
+   }
+   
+   static  Node newNode(int item){
+       Node node=new Node();
+       node.val=item;
+       node.left=null;
+       node.right=null;
+       return node;
+   }
+   
+   static Node insert(Node Node,int item){
+       if(Node==null){
+           return newNode(item);
+       }
+       if(item<Node.val){
+           Node.left=insert(Node.left,item);
+       }
+       if(item>Node.val){
+           Node.right=insert(Node.right,item);
+       }
+       return Node;
+   }
+   static void inorder(Node Node){
+       if(Node==null) return;
+       inorder(Node.left);
+       System.out.print(Node.val+" ");
+       inorder(Node.right);
+       
+       
+   }
+   static void preorder(Node root){
+       if(root==null) return;
+       System.out.print(root.val+" ");
+       preorder(root.left);
+       preorder(root.right);
+   }
+   static void postorder(Node root){
+       if(root==null) return;
+       postorder(root.left);
+       postorder(root.right);
+       System.out.print(root.val+" ");
+   }
+   static int height(Node root){
+       if(root==null){
+           return 0;
+       }
+       int leftht=1+height(root.left);
+       int rightht=1+height(root.right);
+       
+       return Math.max(leftht,rightht);
+   }
+  static int min(Node root){
+      if(root.left==null){
+          return root.val;
+      }
+      return min(root.left);
+  }
+  static int max(Node root){
+      if(root.right==null){
+          return root.val;
+      }
+      return max(root.right);
+  }
+  static void LevelOrder(Node root){
+      Queue<Node> q=new LinkedList<>();
+      q.add(root);
+      while(!q.isEmpty()){
+          int size=q.size();
+          for(int i=0;i<size;i++){
+              Node node=q.poll();
+              System.out.print(node.val+" ");
+              if(node.left!=null){
+                  q.offer(node.left);
+              }
+              if(node.right!=null){
+                  q.offer(node.right);
+              }
+          }
+      }
+      
+  }
+  static void leftView(Node root){
+      Queue<Node> q=new LinkedList<>();
+      q.add(root);
+      int cnter=0;
+      while(!q.isEmpty()){
+          int size=q.size();
+          cnter=0;
+          for(int i=0;i<size;i++){
+              Node node=q.poll();
+              if(cnter==0){
+                  System.out.print(node.val+" ");
+              }
+              cnter++;
+              if(node.left!=null){
+                  q.offer(node.left);
+              }
+              if(node.right!=null){
+                  q.offer(node.right);
+              }
+          }
+      }
+    
+  }
+  
+  static void RightView(Node root){
+       Queue<Node> q=new LinkedList<>();
+      q.add(root);
+      int res=0;
+      while(!q.isEmpty()){
+          int size=q.size();
+          
+          for(int i=0;i<size;i++){
+              Node node=q.poll();
+              res=node.val;
+              if(node.left!=null){
+                  q.offer(node.left);
+              }
+              if(node.right!=null){
+                  q.offer(node.right);
+              }
+          }
+          System.out.print(res+" ");
+      }
+    
+  }
+  static List<Integer> Leaf(Node root){
+      List<Integer> lst=new ArrayList<>();
+       Queue<Node> q=new LinkedList<>();
+      q.add(root);
+      while(!q.isEmpty()){
+          lst=new ArrayList<>();
+          int size=q.size();
+          for(int i=0;i<size;i++){
+              Node node=q.poll();
+              lst.add(node.val);
+              if(node.left!=null){
+                  q.offer(node.left);
+              }
+              if(node.right!=null){
+                  q.offer(node.right);
+              }
+          }
+          
+      }
+      
+      return lst;
+  }
+  static List<Integer> clock(Node root){
+      Queue<Node> q=new LinkedList<>();
+      q.add(root);
+      List<Integer> rt=new ArrayList<>();
+      List<Integer> lt=new ArrayList<>();
+      List<Integer> le=new ArrayList<>();
+      int cnter=0;
+      int res=0;
+      while(!q.isEmpty()){
+          int size=q.size();
+         
+          cnter=0;
+          for(int i=0;i<size;i++){
+              Node node=q.poll();
+              if(cnter==0){
+                  lt.add(node.val);
+              }
+              if(node.left==null&&node.right==null){
+                  le.add(node.val);
+              }
+              res=node.val;
+              cnter++;
+              if(node.left!=null){
+                  q.offer(node.left);
+              }
+              if(node.right!=null){
+                  q.offer(node.right);
+              }
+          }
+          rt.add(res);
+          
+      }
+      rt.remove(rt.size()-1);
+      lt.remove(0);
+      Collections.reverse(le);
+      Collections.reverse(lt);
+      List<Integer> result=new ArrayList<>();
+      result.addAll(rt);
+      result.addAll(le);
+      result.addAll(lt);
+      
+      return result;
+  }
+  
+  static List<Integer> Anticlock(Node root){
+       Queue<Node> q=new LinkedList<>();
+      q.add(root);
+      List<Integer> rt=new ArrayList<>();
+      List<Integer> lt=new ArrayList<>();
+      List<Integer> le=new ArrayList<>();
+      int cnter=0;
+      int res=0;
+      while(!q.isEmpty()){
+          int size=q.size();
+          
+          cnter=0;
+          for(int i=0;i<size;i++){
+              Node node=q.poll();
+              if(cnter==0){
+                  lt.add(node.val);
+              }
+              if(node.left==null&&node.right==null){
+                  le.add(node.val);
+              }
+              res=node.val;
+              cnter++;
+              if(node.left!=null){
+                  q.offer(node.left);
+              }
+              if(node.right!=null){
+                  q.offer(node.right);
+              }
+          }
+          rt.add(res);
+          
+      }
+      List<Integer> result=new ArrayList<>();
+      rt.remove(0);
+      
+      
+      
+      Collections.reverse(rt);
+      while(le.contains(lt.get(lt.size()-1))){
+          lt.remove(Integer.valueOf(lt.get(lt.size()-1)));
+      }
+      while(le.contains(rt.get(0))){
+          rt.remove(Integer.valueOf(rt.get(0)));
+      }
+      
+      
+      result.addAll(lt);
+      result.addAll(le);
+      result.addAll(rt);
+     
+      
+      return result;
+  }
+  
+  static List<Integer> verticalorder(Node root){
+      Queue<int[]> q=new PriorityQueue<>((a,b)->{
+          if(a[1]<b[1]){
+              return a[1]-b[1];
+          }else{
+              return a[0]-b[0];
+          }
+      });
+      Queue<Node> q1=new LinkedList<>();
+      q1.add(root);
+       int cnter=0;
+      q.add(new int[]{root.val,cnter});
+     
+      
+      while(!q1.isEmpty()){
+          int size=q1.size();
+          for(int i=0;i<size;i++){
+              Node node=q1.poll();
+              if(node.left!=null){
+                  q1.add(node.left);
+                  q.add(new int[]{node.left.val,--cnter});
+              }
+              if(node.right!=null){
+                  q1.add(node.right);
+                  q.add(new int[]{node.right.val,++cnter});
+              }
+          }
+      }
+      List<Integer> res=new ArrayList<>();
+      while(!q.isEmpty()){
+          
+          int arr[]=q.poll();
+    
+          res.add(arr[0]);
+         
+      }
+      
+      return res;
+      
+      
+      
+  }
+  
+  static Node delete(Node root,int val){
+      if(root==null) return root;
+      
+      if(val<root.val){
+          root.left=delete(root.left,val);
+          return root;
+      }else if(val>root.val){
+          root.right=delete(root.right,val);
+          return root;
+      }
+      
+      if(root.left==null){
+          Node temp=root.right;
+          return temp;
+      }else if(root.right==null){
+          Node temp=root.left;
+          return temp;
+      }else{
+          Node succParent=root;
+          Node succ=root.right;
+          while(succ.left!=null){
+              succParent=succ;
+              succ=succ.left;
+          }
+           if(root!=succParent){
+              succParent.left=succ.right;
+          }else{
+              succParent.right=succ.right;
+          }
+          root.val=succ.val;
+          
+          return root;
+      }
+       
+  }
+   
+   public static void main(String args[]){
+      Node root=null;
+      root=insert(root,10);
+      insert(root,5);
+      insert(root,15);
+      insert(root,3);
+      insert(root,7);
+      insert(root,12);
+      insert(root,17);
+      insert(root,20);
+          System.out.print("Inorder"+"  :");inorder(root);
+          System.out.println();
+          System.out.print("Preorder"+"  :");preorder(root);
+          System.out.println();
+          System.out.print("PostOrder"+"  :");postorder(root);
+          System.out.println();
+          System.out.println("height"+" "+height(root));
+          System.out.println("Min"+" "+min(root));
+          System.out.println("Max"+" "+max(root));
+          System.out.print("LevelOrder"+"  :");LevelOrder(root);
+          System.out.println();
+          System.out.print("leftView"+"  :");leftView(root);
+          System.out.println();
+          System.out.print("RightView"+"  :");RightView(root);
+          System.out.println();
+          System.out.print("Leaves"+" "+Leaf(root));
+          System.out.println();
+          System.out.print("ClockWise"+" "+clock(root));
+          System.out.println();
+          System.out.print("AntiClockWise"+" "+Anticlock(root));
+          System.out.println();
+          System.out.print("VerticalOrder"+" "+verticalorder(root));
+          delete(root,5);
+          System.out.println();
+          System.out.print("After Delettion"+"  :");inorder(root);
+          
+          
+          
+          
+          
+          
+       
+   }
+    
+}
